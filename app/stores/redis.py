@@ -1,5 +1,5 @@
-import json
 import redis
+from stores import serialize
 
 class Store:
     def __init__(self, config):
@@ -9,8 +9,7 @@ class Store:
     def store(self, data):
         try:
             # Attempt JSON serialization
-            serialized_data = json.dumps(data)
-            self.client.set('data', serialized_data)  # Replace 'data' with a desired key name
+            self.client.set('data', serialize(data))  # Replace 'data' with a desired key name
             return True
         except TypeError as e:
             # Handle non-JSON-serializable types

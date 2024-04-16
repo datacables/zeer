@@ -3,7 +3,7 @@ def zeer_config(flask_app, key):
     return flask_app.config.get(f"ZEER_{key}", None)
 
 # Default store type (choose from database, redis, file, etc.)
-ZEER_DEFAULT_STORE = 'redis'
+ZEER_DEFAULT_STORE = 'memcached'
 
 # Configuration for each supported store type
 ZEER_STORE_CONFIG = {
