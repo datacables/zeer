@@ -1,8 +1,12 @@
+def zeer_config(flask_app, key):
+    # Helper function to get configuration values
+    return flask_app.config.get(f"ZEER_{key}", None)
+
 # Default store type (choose from database, redis, file, etc.)
-DEFAULT_STORE = 'database'
+ZEER_DEFAULT_STORE = 'file'
 
 # Configuration for each supported store type
-STORE_CONFIG = {
+ZEER_STORE_CONFIG = {
     'database': {
         # Database connection details as supported by SQLAlchemy
         'engine': 'sqlite:///data.db',  # Replace with your connection string
@@ -15,7 +19,7 @@ STORE_CONFIG = {
     },
     'file': {
         # File path for storing data (optional, default provided in stores/file.py)
-        'file_path': 'data.log',  # Update with your desired path
+        'file_path': '../logs/data.log',  # Update with your desired path
     },
     's3': {
         # AWS S3 connection details (access key, secret key, bucket name)

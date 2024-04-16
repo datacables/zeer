@@ -1,15 +1,8 @@
 from flask import Flask, request
-from importlib import import_module
+from stores import get_store
 
 # Flask app
 app = Flask(__name__)
-
-
-def get_store():
-    store_type = app.config.get('STORE_TYPE', DEFAULT_STORE)
-    store_module = import_module(f'stores.{store_type}')
-    return store_module.Store(app.config.get(f'{store_type.upper()}_CONFIG'))
-
 
 @app.route('/', methods=['POST'])
 def receive_data():
@@ -21,7 +14,7 @@ def receive_data():
         return 'No data received', 400
 
     # Get store instance
-    store = get_store()
+    store = get_store(flask_app=app)
 
     # Store data
     if not store.store(data):
@@ -31,5 +24,6 @@ def receive_data():
 
 
 if __name__ == '__main__':
-    app.config.from_object(__name__)  # Load config from current module
+    import config as app_config
+    app.config.from_object(app_config)  # Load config from current module
     app.run(debug=True)
