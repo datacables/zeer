@@ -1,5 +1,10 @@
 import boto3
 
+"""
+TODO:
+This module contains the Store class, which is responsible for storing data in an S3 bucket.
+"""
+
 class Store:
     def __init__(self, config):
         # Get S3 credentials and bucket name from config

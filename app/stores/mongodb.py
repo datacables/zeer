@@ -6,9 +6,6 @@ class Store:
         self.client = MongoClient(config['uri'])
         self.db = self.client[config['database']]
         self.collection = self.db[config['collection']]
-        # self.collection = self.client[config['database_name']][config['collection_name']]
-        # self.db = self.client[config['database_name']]
-        # self.collection = self.db[config['collection_name']]
 
     def store(self, data):
         # Insert data into MongoDB collection

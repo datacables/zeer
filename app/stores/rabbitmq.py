@@ -1,5 +1,9 @@
 import pika
 
+"""
+TODO: 
+This store is an example of how to store data in RabbitMQ.
+"""
 class Store:
     def __init__(self, config):
         # Get RabbitMQ connection details from config
