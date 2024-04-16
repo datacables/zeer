@@ -1,3 +1,4 @@
+import json
 import redis
 
 class Store:
@@ -6,10 +7,14 @@ class Store:
         self.client = redis.Redis(**config)
 
     def store(self, data):
-        # Store data in Redis (using SET command)
         try:
-            self.client.set('data', data)  # Replace 'data' with a desired key name
+            # Attempt JSON serialization
+            serialized_data = json.dumps(data)
+            self.client.set('data', serialized_data)  # Replace 'data' with a desired key name
             return True
-        except Exception as e:
-            print(f"Error storing data in Redis: {e}")
-            return False
+        except TypeError as e:
+            # Handle non-JSON-serializable types
+            print(f"Error serializing data for Redis: {e}")
+            # Implement custom logic here (e.g., log error, raise exception)
+            return False  # Or return False based on your error handling strategy
+
