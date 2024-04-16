@@ -1,19 +1,6 @@
 from flask import Flask, request
 from importlib import import_module
 
-# Configuration options (update as needed)
-DEFAULT_STORE = 'database'  # Choose default store (logfile, database, redis)
-STORE_CONFIG = {
-    'database': {
-        'engine': 'sqlite:///data.db'  # Database connection string (if using database)
-    },
-    'redis': {
-        'host': 'localhost',
-        'port': 6379,
-        'db': 0  # Redis database number (if using redis)
-    }
-}
-
 # Flask app
 app = Flask(__name__)
 
