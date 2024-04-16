@@ -3,7 +3,7 @@ def zeer_config(flask_app, key):
     return flask_app.config.get(f"ZEER_{key}", None)
 
 # Default store type (choose from database, redis, file, etc.)
-ZEER_DEFAULT_STORE = 'memcached'
+ZEER_DEFAULT_STORE = 'mongodb'
 
 # Configuration for each supported store type
 ZEER_STORE_CONFIG = {
@@ -30,9 +30,9 @@ ZEER_STORE_CONFIG = {
     },
     'mongodb': {
         # MongoDB connection details (URI, database name, collection name)
-        'mongo_uri': 'mongodb://localhost:27017/',  # Replace with your MongoDB URI
-        'database_name': 'mydatabase',
-        'collection_name': 'mycollection',
+        'uri': "mongodb+srv://zeer:dWkbjqQaAWSxb6XQ@cluster0.nbn0isg.mongodb.net/?retryWrites=true&w=majority",
+        'database': 'zeer_db',
+        'collection': 'zeer_collection',
     },
     'memcached': {
         # Memcached connection details (host, port)
