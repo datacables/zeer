@@ -45,4 +45,3 @@ class Webhook(BaseModel):
         finally:
             session.close()
         return None, "Error registering webhook for the email specified"
-

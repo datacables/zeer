@@ -22,7 +22,7 @@ class BaseModel(db.Model):
     def _oid(cls):
         return uuid.uuid4()
 
-    @classmethod 
+    @classmethod
     def random_string(cls, length=8, prefix=""):
         source = string.ascii_letters + string.digits
         chars = [random.choice(source) for i in range(length)]
@@ -32,7 +32,6 @@ class BaseModel(db.Model):
             return f"{prefix}_{chars[:length-prefix_len]}"
         else:
             return chars
-
 
     def __repr__(self):
         return f"<{self.__class__.__name__}({self.id})>"
