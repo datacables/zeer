@@ -2,5 +2,4 @@ logs/
 *.db
 __pycache__/
 *.pyc
-
-
+app/config.py

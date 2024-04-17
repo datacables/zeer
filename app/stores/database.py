@@ -7,16 +7,19 @@ TODO:
 Store class for storing data in a database using SQLAlchemy
 """
 
+
 class Store:
     def __init__(self, config):
         # Connect to database using config
-        self.engine = create_engine(config['engine'])
+        self.engine = create_engine(config["engine"])
         Base = declarative_base()
-        self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+        self.SessionLocal = sessionmaker(
+            autocommit=False, autoflush=False, bind=self.engine
+        )
 
         # Define database model (same as before)
         class DataEntry(Base):
-            __tablename__ = 'data'
+            __tablename__ = "data"
             id = Column(Integer, primary_key=True)
             payload = Column(String)
 
@@ -38,5 +41,18 @@ class Store:
             print(f"Error storing data: {e}")
             session.rollback()
             return False
+        finally:
+            session.close()
+
+    def retrieve(self):
+        # Get all data entries from database
+        session = self.SessionLocal()
+        try:
+            entries = session.query(DataEntry).all()
+            return [entry.payload for entry in entries]
+        except Exception as e:
+            # Handle database errors
+            print(f"Error retrieving data: {e}")
+            return []
         finally:
             session.close()
