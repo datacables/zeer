@@ -32,16 +32,23 @@ def main(oid, token):
     return "Data stored successfully!", 201
 
 
-@blueprint.route("/register", methods=["POST"])
+@blueprint.route("/register/", methods=["POST"])
 def register():
     # Get email and target_bucket from request
     data = request.get_json()
-    email = data.get("email")
+    email = data.get("email").strip()
+
+    def is_valid_email(email):
+        if email is None or email == "" or len(email) > 100:
+            return False
+        if "@" not in email:
+            return False
+        return True
 
     # Validate email format (basic check)
     # TODO Email validation
-    if not email or not email.isalnum() or "@" not in email:
-        return jsonify({"error": "Invalid email format"}), 400
+    if not is_valid_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
 
     hook_bucket = Webhook.create(email=email)
     hook_url = f"http://localhost:5000/webhook/{hook_bucket.oid}/{hook_bucket.token}"
