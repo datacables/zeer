@@ -1,35 +1,18 @@
-from flask import Flask, request, Blueprint, jsonify
-from stores import get_store
+from core.app import flask_app
+from core.urls import blueprints
 
-from apis.browse import blueprint as browse_blueprint
-from apis.search import blueprint as search_blueprint
-from apis.webhook import blueprint as webhook_blueprint
+
+def initialize():
+    # Load config from settings first
+    # This will be accessible from `core.config import zeer_config
+    flask_app.config.from_object("settings")
+
+    # register blueprints to routes
+    for bp in blueprints:
+        flask_app.register_blueprint(bp[0], url_prefix=bp[1])
+
 
 # Flask app
-app = Flask(__name__)
-
-
-@app.route("/", methods=["POST"])
-def receive_data():
-    # Get data from request
-    data = request.get_json()  # Assumes JSON payload
-
-    # Check if data is present
-    if not data:
-        return "No data received", 400
-
-    # Get store instance
-    store = get_store(flask_app=app)
-
-    # Store data
-    if not store.store(data):
-        return "Error storing data", 500
-
-    return "Data stored successfully!", 201
-
-
 if __name__ == "__main__":
-    import config as app_config
-
-    app.config.from_object(app_config)  # Load config from current module
-    app.run(debug=True)
+    initialize()
+    flask_app.run(debug=True)

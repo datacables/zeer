@@ -1,7 +1,8 @@
 import os
+from stores import BaseStore
 
 
-class Store:
+class FileStore(BaseStore):
     def __init__(self, config):
         # Get file path from config or define a default
         self.file_path = config.get("file_path", "data.log")  # Default to 'data.log'

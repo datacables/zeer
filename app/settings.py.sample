@@ -1,4 +1,7 @@
-def zeer_config(flask_app, key):
+from core.app import flask_app
+
+
+def zeer_config(key):
     # Helper function to get configuration values
     return flask_app.config.get(f"ZEER_{key}", None)
 
@@ -7,7 +10,7 @@ def zeer_config(flask_app, key):
 ZEER_DEFAULT_STORE = "memcached"
 
 # Configuration for each supported store type
-ZEER_STORE_CONFIG = {
+ZEER_STORES_CONFIG = {
     "database": {
         # Database connection details as supported by SQLAlchemy
         "engine": "sqlite:///data.db",  # Replace with your connection string

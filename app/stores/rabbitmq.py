@@ -1,21 +1,24 @@
 import pika
+from stores import BaseStore
 
 """
 TODO: 
 This store is an example of how to store data in RabbitMQ.
 """
-class Store:
+
+
+class RabbitmqStore(BaseStore):
     def __init__(self, config):
         # Get RabbitMQ connection details from config
-        credentials = pika.PlainCredentials(config['username'], config['password'])
+        credentials = pika.PlainCredentials(config["username"], config["password"])
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=config['host'], credentials=credentials)
+            pika.ConnectionParameters(host=config["host"], credentials=credentials)
         )
         self.channel = self.connection.channel()
 
         # Define exchange and queue (adjust as needed)
-        self.exchange_name = 'data_exchange'
-        self.queue_name = 'data_queue'
+        self.exchange_name = "data_exchange"
+        self.queue_name = "data_queue"
         self.channel.queue_declare(queue=self.queue_name)
 
     def store(self, data):

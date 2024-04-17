@@ -2,13 +2,15 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from stores import BaseStore
+
 """
 TODO:
 Store class for storing data in a database using SQLAlchemy
 """
 
 
-class Store:
+class DatabaseStore(BaseStore):
     def __init__(self, config):
         # Connect to database using config
         self.engine = create_engine(config["engine"])
