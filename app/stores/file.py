@@ -8,7 +8,7 @@ class FileStore(BaseStore):
         self.file_path = config.get("file_path", "data.log")  # Default to 'data.log'
 
     def store(self, data):
-        flattened_annotations = self.generate_annotations(flat=True)
+        oid, ts, flattened_annotations = self.generate_annotations(flat=True)
         # Ensure directory exists
         os.makedirs(
             os.path.dirname(self.file_path), exist_ok=True
@@ -21,7 +21,7 @@ class FileStore(BaseStore):
                 f"{flattened_annotations} :: {data}\n"
             )  # Add newline character after each entry
 
-        return True
+        return True, dict(oid=oid, ts=ts)
 
     def get(self, oid):
         raise NotImplementedError

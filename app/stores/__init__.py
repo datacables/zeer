@@ -2,12 +2,15 @@ from importlib import import_module
 from core.config.helpers import zeer_config
 
 from datetime import datetime
-from shortuuid import uuid, ShortUUID
+import uuid
 
 import json
 
 
 class BaseStore:
+    def __init__(self, webook):
+        self.webhook = webook
+
     def store(self, data):
         raise NotImplementedError
 
@@ -26,11 +29,14 @@ class BaseStore:
         return json.dumps(data)
 
     def generate_annotations(self, flat=False):
-        annotations = {"ts": datetime.now().isoformat(), "oid": uuid()}
+        oid = str(uuid.uuid4())
+        ts = datetime.now().isoformat()
+
+        annotations = {"wh": f"{self.webhook.oid}", "ts": ts, "oid": oid}
         if flat:
-            return json.dumps(annotations)
+            return oid, ts, json.dumps(annotations)
         else:
-            return annotations
+            return oid, ts, annotations
 
     @classmethod
     def get_provider(cls):

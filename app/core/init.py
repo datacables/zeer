@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 
 flask_app = Flask(__name__)
 flask_app.config.from_object("settings")
-db = SQLAlchemy(flask_app)
+db = SQLAlchemy(flask_app, session_options={"expire_on_commit": False})
 migrate = Migrate(flask_app, db)
 
 

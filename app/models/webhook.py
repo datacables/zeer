@@ -1,15 +1,18 @@
-from sqlalchemy import Column, String
+import uuid
 
-from models.base import BaseModel
 from core.init import db
-
-from shortuuid import uuid
+from models.base import BaseModel
+from sqlalchemy import Column, String
+from sqlalchemy_utils import UUIDType
 
 
 # Database model for webhook
 class Webhook(BaseModel):
     __tablename__ = "webhook"
-    oid = Column(String, unique=True)
+    oid = Column(
+        UUIDType(binary=True),
+        default=uuid.uuid4,
+    )
     token = Column(String, unique=True)  # for authentication
     email = Column(String, unique=True)
 
@@ -20,29 +23,26 @@ class Webhook(BaseModel):
     @classmethod
     def create(cls, email):
         # Generate unique oid and token
-        token = str(uuid())
-        oid = str(uuid())
+        token = BaseModel.random_string(15, prefix="wh.tk")
+        oid = BaseModel._oid()
 
         if cls.get_by_email(email):
-            return None
+            return None, "Duplicate Email"
 
         # Create new webhook entry
         new_entry = Webhook(oid=oid, token=token, email=email)
 
         # Add entry to database session
-        session = db.session
+        session = db.session()
         try:
             session.add(new_entry)
             session.commit()
-            return new_entry
+            return new_entry, None
         except Exception as e:
             # Handle database errors
-            print(f"Error storing data: {e}")
+            print(f"ERROR !! Webhook Create failed - {e}")
             session.rollback()
-            return None
         finally:
             session.close()
+        return None, "Error registering webhook for the email specified"
 
-
-# # Create database tables (run only once)
-# Base.metadata.create_all(engine)
