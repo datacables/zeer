@@ -8,7 +8,15 @@ class BaseStore:
     def store(self, data):
         raise NotImplementedError
 
-    def retrieve(self):
+    def get(self, oid):
+        results = self.retrieve({"oid": oid})
+        if len(results) > 0:
+            raise ValueError(f"Multiple entries found for oid {oid}")
+        elif len(results) == 0:
+            return ValueError(f"No entry found for oid {oid}")
+        return results[0]
+
+    def retrieve(self, filters=None):
         raise NotImplementedError
 
     def serialize(self, data):

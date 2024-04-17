@@ -46,7 +46,10 @@ class DatabaseStore(BaseStore):
         finally:
             session.close()
 
-    def retrieve(self):
+    def get(self, oid):
+        raise NotImplementedError
+
+    def retrieve(self, filters=None):
         # Get all data entries from database
         session = self.SessionLocal()
         try:

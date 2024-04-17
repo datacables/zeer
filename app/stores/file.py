@@ -20,7 +20,10 @@ class FileStore(BaseStore):
 
         return True
 
-    def retrieve(self):
+    def get(self, oid):
+        raise NotImplementedError
+
+    def retrieve(self, filters=None):
         # Read data from file
         try:
             with open(self.file_path, "r") as f:

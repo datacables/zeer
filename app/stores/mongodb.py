@@ -13,3 +13,9 @@ class MongodbStore(BaseStore):
         # Insert data into MongoDB collection
         self.collection.insert_one({"data": data})
         return True  # Return success or failure (consider error handling)
+
+    def get(self, oid):
+        return {}
+
+    def retrieve(self, filters=None):
+        return []
