@@ -1,18 +1,14 @@
-from core.app import flask_app
-from core.urls import blueprints
+import os
+import sys
 
+# enforce working path
+# TODO : see this
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path)
 
-def initialize():
-    # Load config from settings first
-    # This will be accessible from `core.config import zeer_config
-    flask_app.config.from_object("settings")
-
-    # register blueprints to routes
-    for bp in blueprints:
-        flask_app.register_blueprint(bp[0], url_prefix=bp[1])
+from core.init import flask_app
 
 
 # Flask app
 if __name__ == "__main__":
-    initialize()
     flask_app.run(debug=True)

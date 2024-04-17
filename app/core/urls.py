@@ -1,5 +1,3 @@
-from flask import Flask, Blueprint
-
 from apis.browse import blueprint as browse_blueprint
 from apis.search import blueprint as search_blueprint
 from apis.webhook import blueprint as webhook_blueprint
