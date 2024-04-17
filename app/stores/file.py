@@ -8,6 +8,7 @@ class FileStore(BaseStore):
         self.file_path = config.get("file_path", "data.log")  # Default to 'data.log'
 
     def store(self, data):
+        flattened_annotations = self.generate_annotations(flat=True)
         # Ensure directory exists
         os.makedirs(
             os.path.dirname(self.file_path), exist_ok=True
@@ -16,7 +17,9 @@ class FileStore(BaseStore):
         # Open file in append mode
         with open(self.file_path, "a") as f:
             # Write data to the file
-            f.write(f"{data}\n")  # Add newline character after each entry
+            f.write(
+                f"{flattened_annotations} :: {data}\n"
+            )  # Add newline character after each entry
 
         return True
 

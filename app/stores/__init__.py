@@ -1,6 +1,9 @@
 from importlib import import_module
 from core.config.helpers import zeer_config
 
+from datetime import datetime
+from shortuuid import uuid, ShortUUID
+
 import json
 
 
@@ -21,6 +24,13 @@ class BaseStore:
 
     def serialize(self, data):
         return json.dumps(data)
+
+    def generate_annotations(self, flat=False):
+        annotations = {"ts": datetime.now().isoformat(), "oid": uuid()}
+        if flat:
+            return json.dumps(annotations)
+        else:
+            return annotations
 
     @classmethod
     def get_provider(cls):

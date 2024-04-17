@@ -5,7 +5,7 @@ blueprint = Blueprint("webhook", __name__)
 
 
 @blueprint.route("/", methods=["POST"])
-def receive_data():
+def main():
     # Get data from request
     data = request.get_json()  # Assumes JSON payload
 
