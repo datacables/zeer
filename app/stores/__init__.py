@@ -1,5 +1,5 @@
 from importlib import import_module
-from core.config import zeer_config
+from core.config.helpers import zeer_config
 
 import json
 
