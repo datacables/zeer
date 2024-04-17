@@ -14,9 +14,5 @@ class BaseModel(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     deleted_at = db.Column(db.DateTime)
 
-    @staticmethod
-    def db():
-        return db
-
     def __repr__(self):
         return f"<{self.__class__.__name__}({self.id})>"
