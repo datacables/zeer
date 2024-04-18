@@ -1,5 +1,5 @@
 # Default store type (choose from database, redis, file, etc.)
-ZEER_DEFAULT_STORE = "memcached"
+ZEER_DEFAULT_STORE = "file"
 
 # Configuration for each supported store type
 ZEER_STORES_CONFIG = {
@@ -15,7 +15,7 @@ ZEER_STORES_CONFIG = {
     },
     "file": {
         # File path for storing data (optional, default provided in stores/file.py)
-        "file_path": "../logs/data.log",  # Update with your desired path
+        "file_path": "../logs/webook_data.log",  # Update with your desired path
     },
     "s3": {
         # AWS S3 connection details (access key, secret key, bucket name)
@@ -40,3 +40,5 @@ ZEER_STORES_CONFIG = {
         "provider_class": "path.to.custom.Store",  # Replace with your custom store class
     },
 }
+
+SQLALCHEMY_DATABASE_URI = "sqlite:///data.db"
