@@ -6,6 +6,8 @@ from flask import request, jsonify
 blueprint = Blueprint("webhook", __name__)
 
 from models.webhook import Webhook
+from core.helpers import get_request_data
+from core.config.helpers import zeer_config
 
 
 @blueprint.route("/<oid>/<token>/", methods=["POST"])
@@ -17,7 +19,7 @@ def main(oid, token):
         return jsonify({"message": "Invalid Webhook"}), 404
 
     # Get data from request
-    data = request.get_json()  # Assumes JSON payload
+    data = get_request_data()
 
     # Check if data is present
     if not data:
@@ -47,7 +49,8 @@ def main(oid, token):
 @blueprint.route("/register/", methods=["POST"])
 def register():
     # Get email and target_bucket from request
-    data = request.get_json()
+    # Get data from request
+    data = get_request_data()
     email = data.get("email").strip()
 
     def is_valid_email(email):
@@ -67,14 +70,14 @@ def register():
         return (
             jsonify(
                 {
-                    "message": "Webhook registration failed for the email",
-                    "error": message,
+                    "msg": "Webhook registration failed for the email",
+                    "err": message,
                 }
             ),
             400,
         )
 
-    hook_url = f"http://localhost:5000/webhook/{hook_bucket.oid}/{hook_bucket.token}"
+    hook_url = f"{zeer_config('WEBHOOK_DOMAIN')}/webhook/{hook_bucket.oid}/{hook_bucket.token}/"
 
     # Set cache for target_bucket with unique_url
     #     cache.set(target_bucket, unique_url)
@@ -82,10 +85,13 @@ def register():
     # Return success response with unique URL
     return jsonify(
         {
-            "hook_url": hook_url,
-            "hook_bucket": hook_bucket.oid,
-            "hook_token": hook_bucket.token,
-            "hook_email": email,
-            "message": "Webhook registered successfully!",
+            "webhook": {
+                "url": hook_url,
+                "bucket": hook_bucket.oid,
+                "token": hook_bucket.token,
+                "email": email,
+                "active": True,
+            },
+            "msg": "Webhook registered successfully!",
         }
     )

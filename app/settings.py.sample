@@ -42,3 +42,4 @@ ZEER_STORES_CONFIG = {
 }
 
 SQLALCHEMY_DATABASE_URI = "sqlite:///data.db"
+ZEER_WEBHOOK_DOMAIN = "http://localhost:5000"

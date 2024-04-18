@@ -23,7 +23,7 @@ class Webhook(BaseModel):
     @classmethod
     def create(cls, email):
         # Generate unique oid and token
-        token = BaseModel.random_string(15, prefix="wh.tk")
+        token = BaseModel.random_string(25, prefix="wh.tk")
         oid = BaseModel._oid()
 
         if cls.get_by_email(email):
